@@ -1,0 +1,7 @@
+Release checklist
+Run tests
+Inspect report
+Case
+Status
+simple
+pass
