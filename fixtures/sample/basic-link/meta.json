@@ -1,0 +1,6 @@
+{
+  "id": "basic-link",
+  "title": "Heading, paragraph, and link",
+  "tags": ["links", "headings"],
+  "notes": "Preserves anchor href beside visible text."
+}

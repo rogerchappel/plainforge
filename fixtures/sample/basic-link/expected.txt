@@ -1,0 +1,2 @@
+Plainforge turns HTML into reviewable text
+Compare documentation pages (https://example.test/docs) with fixtures.
