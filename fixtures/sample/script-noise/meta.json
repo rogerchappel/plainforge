@@ -1,0 +1,6 @@
+{
+  "id": "script-noise",
+  "title": "Noise removal",
+  "tags": ["safety", "normalization"],
+  "notes": "Hidden executable-ish blocks are excluded from plain text output."
+}

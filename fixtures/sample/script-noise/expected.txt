@@ -1,0 +1,2 @@
+Visible copy only
+Ignore script, style, comments, and extra spacing.
