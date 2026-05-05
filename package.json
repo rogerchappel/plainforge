@@ -1,0 +1,50 @@
+{
+  "name": "plainforge",
+  "version": "0.1.0",
+  "description": "Local-first fixture testbed for comparing HTML-to-plain-text extraction quality.",
+  "type": "module",
+  "bin": {
+    "plainforge": "./bin/plainforge.js"
+  },
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "fixtures/sample",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check bin/plainforge.js && node --check src/*.js && node --check test/*.test.js",
+    "test": "node --test",
+    "build": "node scripts/build.js",
+    "smoke": "bash scripts/smoke.sh",
+    "package:smoke": "npm pack --dry-run",
+    "release:check": "npm test && npm run check && npm run build && npm run smoke && npm run package:smoke"
+  },
+  "keywords": [
+    "html-to-text",
+    "fixtures",
+    "benchmark",
+    "cli",
+    "local-first",
+    "agent-tools"
+  ],
+  "author": "Roger Chappel",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rogerchappel/plainforge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rogerchappel/plainforge/issues"
+  },
+  "homepage": "https://github.com/rogerchappel/plainforge#readme",
+  "engines": {
+    "node": ">=20"
+  }
+}
