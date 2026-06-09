@@ -16,7 +16,10 @@
     "fixtures/sample",
     "examples",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md"
   ],
   "scripts": {
     "check": "node --check bin/plainforge.js && node --check src/*.js && node --check test/*.test.js",
