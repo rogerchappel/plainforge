@@ -93,6 +93,7 @@ npm test
 npm run check
 npm run build
 npm run smoke
+npm run package:smoke
 bash scripts/validate.sh
 ```
 
@@ -124,3 +125,4 @@ npm run release:check
 ```
 
 The package smoke uses `npm pack --dry-run` so the published file list can be reviewed without publishing.
+It also installs the generated tarball in a temporary project and checks the public import, CLI help, conversion, and fixture inspection paths.
