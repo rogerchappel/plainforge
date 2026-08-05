@@ -26,10 +26,20 @@ function parseArgs(argv) {
   const options = { _: [] };
   for (let i = 0; i < rest.length; i += 1) {
     const item = rest[i];
-    if (item === '--output' || item === '-o') options.output = rest[++i];
-    else if (item === '--strategy') options.strategy = rest[++i];
+    if (item === '--output' || item === '-o') {
+      const value = rest[i + 1];
+      if (!value || value.startsWith('-')) throw new Error(`${item} requires a value`);
+      options.output = value;
+      i += 1;
+    } else if (item === '--strategy') {
+      const value = rest[i + 1];
+      if (!value || value.startsWith('-')) throw new Error('--strategy requires a value');
+      options.strategy = value;
+      i += 1;
+    }
     else if (item === '--json') options.json = true;
     else if (item === '--help' || item === '-h') options.help = true;
+    else if (item.startsWith('-')) throw new Error(`unknown option: ${item}`);
     else options._.push(item);
   }
   return { command, options };
@@ -48,8 +58,10 @@ async function main() {
   }
 
   if (command === 'convert') {
+    if (options.output) fail('--output is only valid with inspect');
+    if (options._.length === 0) fail('convert requires an html file');
+    if (options._.length > 1) fail('convert accepts exactly one html file');
     const file = options._[0];
-    if (!file) fail('convert requires an html file');
     const html = readFileSync(resolve(file), 'utf8');
     const result = convertHtmlToText(html, { strategy: options.strategy });
     if (options.json) console.log(JSON.stringify(result, null, 2));
@@ -58,8 +70,9 @@ async function main() {
   }
 
   if (command === 'inspect') {
+    if (options._.length === 0) fail('inspect requires a fixture directory');
+    if (options._.length > 1) fail('inspect accepts exactly one fixture directory');
     const fixtureDir = options._[0];
-    if (!fixtureDir) fail('inspect requires a fixture directory');
     const report = await inspectFixtures(resolve(fixtureDir), { strategy: options.strategy });
     if (options.output) {
       const written = await writeReport(report, resolve(options.output));

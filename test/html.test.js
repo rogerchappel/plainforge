@@ -6,6 +6,10 @@ test('decodeEntities handles named and numeric entities', () => {
   assert.equal(decodeEntities('Tom &amp; Jerry &#169; &#x1F680;'), 'Tom & Jerry © 🚀');
 });
 
+test('decodeEntities replaces numeric references outside Unicode', () => {
+  assert.equal(decodeEntities('hex: &#x110000; decimal: &#999999999999;'), 'hex: � decimal: �');
+});
+
 test('normalizeText trims blank lines and repeated spaces', () => {
   assert.equal(normalizeText(' Alpha   beta \n\n Gamma\t delta '), 'Alpha beta\nGamma delta');
 });
@@ -13,6 +17,11 @@ test('normalizeText trims blank lines and repeated spaces', () => {
 test('convertHtmlToText preserves link hrefs', () => {
   const result = convertHtmlToText('<p>Read <a href="https://example.test">docs</a></p>');
   assert.equal(result.text, 'Read docs (https://example.test)');
+});
+
+test('convertHtmlToText preserves unquoted link hrefs', () => {
+  const result = convertHtmlToText('<p>Read <a class=external href=https://example.test/docs/plainforge>docs</a></p>');
+  assert.equal(result.text, 'Read docs (https://example.test/docs/plainforge)');
 });
 
 test('convertHtmlToText excludes script and style blocks', () => {
