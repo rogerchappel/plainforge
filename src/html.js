@@ -8,8 +8,14 @@ const ENTITIES = new Map([
 export function decodeEntities(value) {
   return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (_, entity) => {
     const key = entity.toLowerCase();
-    if (key.startsWith('#x')) return String.fromCodePoint(Number.parseInt(key.slice(2), 16));
-    if (key.startsWith('#')) return String.fromCodePoint(Number.parseInt(key.slice(1), 10));
+    const numeric = key.startsWith('#x')
+      ? Number.parseInt(key.slice(2), 16)
+      : key.startsWith('#') ? Number.parseInt(key.slice(1), 10) : null;
+    if (numeric !== null) {
+      const isUnicodeScalar = numeric >= 0 && numeric <= 0x10FFFF
+        && !(numeric >= 0xD800 && numeric <= 0xDFFF);
+      return isUnicodeScalar ? String.fromCodePoint(numeric) : '\uFFFD';
+    }
     return ENTITIES.get(key) ?? `&${entity};`;
   });
 }
@@ -27,7 +33,11 @@ export function convertHtmlToText(html, options = {}) {
   const strategy = options.strategy ?? 'readable';
   if (!['readable', 'compact'].includes(strategy)) throw new Error(`unsupported strategy: ${strategy}`);
 
-  const withLinks = html.replace(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, (_, href, label) => `${label} (${href})`);
+  const withLinks = html.replace(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi, (match, attributes, label) => {
+    const href = attributes.match(/\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/i);
+    if (!href) return match;
+    return `${label} (${href[1] ?? href[2] ?? href[3]})`;
+  });
   const text = decodeEntities(
     withLinks
       .replace(HIDDEN_BLOCKS, ' ')
