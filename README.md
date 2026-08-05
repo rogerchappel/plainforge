@@ -48,6 +48,17 @@ Use JSON output in automation:
 node bin/plainforge.js inspect fixtures/sample --json
 ```
 
+The CLI accepts these command forms:
+
+```text
+plainforge convert <html-file> [--strategy readable|compact] [--json]
+plainforge inspect <fixture-dir> [--output <dir>] [--strategy readable|compact] [--json]
+```
+
+`--output` (or `-o`) is available only for `inspect`. Options that require a
+value, unknown options, and extra file or directory arguments are rejected with
+a nonzero exit status and an actionable error message.
+
 ## Fixture format
 
 Each fixture is a directory with:
