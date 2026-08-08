@@ -24,9 +24,18 @@ test('convertHtmlToText preserves unquoted link hrefs', () => {
   assert.equal(result.text, 'Read docs (https://example.test/docs/plainforge)');
 });
 
-test('convertHtmlToText excludes script and style blocks', () => {
-  const result = convertHtmlToText('<style>x</style><script>secret()</script><h1>Visible</h1>');
-  assert.equal(result.text, 'Visible');
+test('convertHtmlToText excludes closed hidden blocks without disturbing visible text', () => {
+  for (const tag of ['script', 'style', 'noscript', 'svg', 'template', 'head']) {
+    const result = convertHtmlToText(`<p>Before</p><${tag} data-test="hidden">secret</${tag}><p>After</p>`);
+    assert.equal(result.text, 'Before\nAfter', tag);
+  }
+});
+
+test('convertHtmlToText excludes unclosed hidden blocks through the end of truncated input', () => {
+  for (const tag of ['script', 'style', 'noscript', 'svg', 'template', 'head']) {
+    const result = convertHtmlToText(`<p>Visible</p><${tag} data-test="hidden">secret`);
+    assert.equal(result.text, 'Visible', tag);
+  }
 });
 
 test('compact strategy returns one line', () => {
