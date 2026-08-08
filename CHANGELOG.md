@@ -15,4 +15,8 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - Fixture-backed unit tests and CLI smoke checks.
 - README, examples, safety, contributing, and security documentation.
 
+### Fixed
+
+- Omit hidden block contents when truncated HTML ends before the closing tag.
+
 [Unreleased]: https://github.com/rogerchappel/plainforge/compare/HEAD...HEAD
