@@ -18,5 +18,6 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ### Fixed
 
 - Omit hidden block contents when truncated HTML ends before the closing tag.
+- Match complete HTML block tag names so similarly prefixed custom elements do not add block newlines.
 
 [Unreleased]: https://github.com/rogerchappel/plainforge/compare/HEAD...HEAD
