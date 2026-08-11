@@ -1,4 +1,4 @@
-const BLOCK_TAGS = /<\/?(?:article|aside|blockquote|br|div|dl|dt|dd|figcaption|figure|footer|h[1-6]|header|hr|li|main|nav|ol|p|pre|section|table|tbody|td|tfoot|th|thead|tr|ul)[^>]*>/gi;
+const BLOCK_TAGS = /<\/?(?:article|aside|blockquote|br|div|dl|dt|dd|figcaption|figure|footer|h[1-6]|header|hr|li|main|nav|ol|p|pre|section|table|tbody|td|tfoot|th|thead|tr|ul)(?=[\s/>])[^>]*>/gi;
 const HIDDEN_BLOCKS = /<(script|style|noscript|svg|template|head)\b[^>]*>[\s\S]*?(?:<\/\1\s*>|$)/gi;
 
 const ENTITIES = new Map([
