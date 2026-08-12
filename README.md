@@ -97,6 +97,7 @@ Plainforge is intentionally boring and local:
 
 Treat fixture content as untrusted text. Plainforge does not execute HTML, JavaScript, CSS, or remote resources.
 Hidden `script`, `style`, `noscript`, `svg`, `template`, and `head` blocks are omitted; if one is truncated without a closing tag, its content is omitted through the end of the input.
+Tag and anchor boundaries respect single- and double-quoted attribute values, including `>` characters inside those values.
 
 ## Development
 
