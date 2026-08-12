@@ -24,6 +24,14 @@ test('convertHtmlToText preserves unquoted link hrefs', () => {
   assert.equal(result.text, 'Read docs (https://example.test/docs/plainforge)');
 });
 
+test('convertHtmlToText keeps quoted greater-than signs inside anchor attributes', () => {
+  for (const quote of ['"', "'"]) {
+    const html = `<span>Before</span><a title=${quote}1 > 0${quote} href=${quote}/x${quote}>Link</a><em>After</em>`;
+    assert.equal(convertHtmlToText(html).text, 'Before Link (/x) After', `readable ${quote}`);
+    assert.equal(convertHtmlToText(html, { strategy: 'compact' }).text, 'Before Link (/x) After', `compact ${quote}`);
+  }
+});
+
 test('convertHtmlToText excludes closed hidden blocks without disturbing visible text', () => {
   for (const tag of ['script', 'style', 'noscript', 'svg', 'template', 'head']) {
     const result = convertHtmlToText(`<p>Before</p><${tag} data-test="hidden">secret</${tag}><p>After</p>`);
@@ -46,6 +54,14 @@ test('convertHtmlToText does not treat custom tags with block-tag prefixes as bl
 test('convertHtmlToText separates complete block tag names', () => {
   const result = convertHtmlToText('before<br>break<p class="lead">paragraph</p><hr/>after');
   assert.equal(result.text, 'before\nbreak\nparagraph\nafter');
+});
+
+test('convertHtmlToText keeps quoted greater-than signs inside block attributes', () => {
+  for (const quote of ['"', "'"]) {
+    const html = `<span>Before</span><p title=${quote}1 > 0${quote}>Hello</p><em>After</em>`;
+    assert.equal(convertHtmlToText(html).text, 'Before\nHello\nAfter', `readable ${quote}`);
+    assert.equal(convertHtmlToText(html, { strategy: 'compact' }).text, 'Before Hello After', `compact ${quote}`);
+  }
 });
 
 test('compact strategy returns one line', () => {
