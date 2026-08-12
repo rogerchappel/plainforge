@@ -46,9 +46,19 @@ test('convertHtmlToText excludes unclosed hidden blocks through the end of trunc
   }
 });
 
+test('convertHtmlToText omits hidden blocks with greater-than signs in quoted attributes', () => {
+  const html = '<p>Before &amp;</p><script data-expression="1 > 0">secret</script><p>After</p>';
+  assert.equal(convertHtmlToText(html).text, 'Before &\nAfter');
+});
+
 test('convertHtmlToText does not treat custom tags with block-tag prefixes as blocks', () => {
   const result = convertHtmlToText('before<bracket>inside</bracket><p-card>after</p-card>end');
   assert.equal(result.text, 'before inside after end');
+});
+
+test('convertHtmlToText removes ordinary tags with quoted greater-than signs', () => {
+  const html = '<span title="1 > 0">Hello</span><em title=\'2 > 1\'> world</em>';
+  assert.equal(convertHtmlToText(html).text, 'Hello world');
 });
 
 test('convertHtmlToText separates complete block tag names', () => {
