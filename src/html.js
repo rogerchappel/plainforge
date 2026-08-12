@@ -1,5 +1,6 @@
-const BLOCK_TAGS = /<\/?(?:article|aside|blockquote|br|div|dl|dt|dd|figcaption|figure|footer|h[1-6]|header|hr|li|main|nav|ol|p|pre|section|table|tbody|td|tfoot|th|thead|tr|ul)(?=[\s/>])[^>]*>/gi;
-const HIDDEN_BLOCKS = /<(script|style|noscript|svg|template|head)\b[^>]*>[\s\S]*?(?:<\/\1\s*>|$)/gi;
+const BLOCK_TAGS = /<\/?(?:article|aside|blockquote|br|div|dl|dt|dd|figcaption|figure|footer|h[1-6]|header|hr|li|main|nav|ol|p|pre|section|table|tbody|td|tfoot|th|thead|tr|ul)(?=[\s/>])(?:"[^"]*"|'[^']*'|[^'">])*>/gi;
+const HIDDEN_BLOCKS = /<(script|style|noscript|svg|template|head)\b(?:"[^"]*"|'[^']*'|[^'">])*>[\s\S]*?(?:<\/\1\s*>|$)/gi;
+const HTML_TAG = /<(?:"[^"]*"|'[^']*'|[^'">])+>/g;
 
 const ENTITIES = new Map([
   ['amp', '&'], ['lt', '<'], ['gt', '>'], ['quot', '"'], ['apos', "'"], ['nbsp', ' '], ['copy', '©'], ['reg', '®'], ['mdash', '—'], ['ndash', '–'], ['hellip', '…']
@@ -33,7 +34,7 @@ export function convertHtmlToText(html, options = {}) {
   const strategy = options.strategy ?? 'readable';
   if (!['readable', 'compact'].includes(strategy)) throw new Error(`unsupported strategy: ${strategy}`);
 
-  const withLinks = html.replace(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi, (match, attributes, label) => {
+  const withLinks = html.replace(/<a\b((?:"[^"]*"|'[^']*'|[^'">])*)>([\s\S]*?)<\/a\s*>/gi, (match, attributes, label) => {
     const href = attributes.match(/\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/i);
     if (!href) return match;
     return `${label} (${href[1] ?? href[2] ?? href[3]})`;
@@ -43,7 +44,7 @@ export function convertHtmlToText(html, options = {}) {
       .replace(HIDDEN_BLOCKS, ' ')
       .replace(/<!--([\s\S]*?)-->/g, ' ')
       .replace(BLOCK_TAGS, '\n')
-      .replace(/<[^>]+>/g, ' ')
+      .replace(HTML_TAG, ' ')
   );
 
   return {
