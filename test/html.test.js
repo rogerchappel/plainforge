@@ -38,6 +38,16 @@ test('convertHtmlToText excludes unclosed hidden blocks through the end of trunc
   }
 });
 
+test('convertHtmlToText does not treat custom tags with block-tag prefixes as blocks', () => {
+  const result = convertHtmlToText('before<bracket>inside</bracket><p-card>after</p-card>end');
+  assert.equal(result.text, 'before inside after end');
+});
+
+test('convertHtmlToText separates complete block tag names', () => {
+  const result = convertHtmlToText('before<br>break<p class="lead">paragraph</p><hr/>after');
+  assert.equal(result.text, 'before\nbreak\nparagraph\nafter');
+});
+
 test('compact strategy returns one line', () => {
   const result = convertHtmlToText('<h1>A</h1><p>B</p>', { strategy: 'compact' });
   assert.equal(result.text, 'A B');
