@@ -17,7 +17,7 @@ Plainforge was inspired by the existence of adjacent `html2text` projects, inclu
 ## Install
 
 ```sh
-npm install
+npm install plainforge
 ```
 
 For local development you can run the CLI directly:
@@ -26,7 +26,9 @@ For local development you can run the CLI directly:
 node bin/plainforge.js --help
 ```
 
-After publishing, the package exposes a `plainforge` binary.
+The npm package exposes a `plainforge` binary. For repository development, use
+`npm ci` instead of the install command above and run the CLI directly with
+`node bin/plainforge.js --help`.
 
 ## Quickstart
 
@@ -139,3 +141,15 @@ npm run release:check
 
 The package smoke uses `npm pack --dry-run` so the published file list can be reviewed without publishing.
 It also installs the generated tarball in a temporary project and checks the public import, CLI help, conversion, and fixture inspection paths.
+
+Tagged releases require the tag to exactly match the package version (for
+example, `v0.2.0` for `plainforge@0.2.0`). The release workflow runs the full
+gate, packs and validates one tarball, then publishes that exact artifact to npm
+with trusted publishing before attaching it to the GitHub release.
+
+If validation or npm publication fails, no GitHub release is created. Correct
+the version, tag, trusted-publisher configuration, or registry issue, delete the
+failed remote tag if necessary, and rerun the release with a new or corrected
+tag. If npm publication succeeds but GitHub release creation fails, do not
+republish the immutable npm version; rerun only the GitHub release creation with
+the validated tarball from the workflow run.

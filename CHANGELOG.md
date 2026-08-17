@@ -14,6 +14,8 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - JSON and Markdown report generation.
 - Fixture-backed unit tests and CLI smoke checks.
 - README, examples, safety, contributing, and security documentation.
+- Trusted npm publication with tag and packed-artifact identity validation.
+- Automated release workflow contract coverage.
 
 ### Fixed
 
