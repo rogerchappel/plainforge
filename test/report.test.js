@@ -16,6 +16,15 @@ test('renderMarkdownReport summarizes results', () => {
   assert.match(markdown, /\| case \| pass \| x \| note \|/);
 });
 
+test('renderMarkdownReport escapes pipes and normalizes newlines in every user-controlled cell', () => {
+  const report = createReport([
+    { id: 'case|one\ncontinued', tags: ['docs|api', 'line\nbreak'], notes: 'first|line\r\nsecond', passed: true, diff: [] }
+  ], 'readable');
+  const markdown = renderMarkdownReport(report);
+  assert.match(markdown, /\| case\\\|one<br>continued \| pass \| docs\\\|api, line<br>break \| first\\\|line<br>second \|/);
+  assert.equal(markdown.split('\n').filter((line) => line.startsWith('| ')).length, 2);
+});
+
 test('writeReport writes json and markdown reports', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'plainforge-'));
   try {

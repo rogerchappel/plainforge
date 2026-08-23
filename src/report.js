@@ -27,7 +27,7 @@ export function renderMarkdownReport(report) {
     '|---|---:|---|---|'
   ];
   for (const result of report.results) {
-    lines.push(`| ${result.id} | ${result.passed ? 'pass' : 'fail'} | ${result.tags.join(', ')} | ${result.notes.replace(/\|/g, '\\|')} |`);
+    lines.push(`| ${markdownCell(result.id)} | ${result.passed ? 'pass' : 'fail'} | ${markdownCell(result.tags.join(', '))} | ${markdownCell(result.notes)} |`);
   }
   for (const result of report.results.filter((item) => !item.passed)) {
     lines.push('', `## Diff: ${result.id}`, '', '```diff');
@@ -37,6 +37,10 @@ export function renderMarkdownReport(report) {
     lines.push('```');
   }
   return `${lines.join('\n')}\n`;
+}
+
+function markdownCell(value) {
+  return String(value).replace(/\r?\n|\r/g, '<br>').replace(/\|/g, '\\|');
 }
 
 export async function writeReport(report, outputDir) {
