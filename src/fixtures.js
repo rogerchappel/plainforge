@@ -13,11 +13,13 @@ export async function discoverFixtures(rootDir) {
 }
 
 export async function loadFixture(dir) {
+  const metaPath = join(dir, 'meta.json');
   const [html, expected, meta] = await Promise.all([
     readFile(join(dir, 'input.html'), 'utf8'),
     readFile(join(dir, 'expected.txt'), 'utf8'),
-    readOptionalJson(join(dir, 'meta.json'))
+    readOptionalJson(metaPath)
   ]);
+  validateMetadata(meta, metaPath);
   return {
     id: meta.id ?? basename(dir),
     title: meta.title ?? basename(dir),
@@ -27,6 +29,20 @@ export async function loadFixture(dir) {
     html,
     expected: expected.trim()
   };
+}
+
+function validateMetadata(meta, path) {
+  if (meta === null || typeof meta !== 'object' || Array.isArray(meta)) {
+    throw new Error(`${path}: fixture metadata must be a JSON object`);
+  }
+  for (const field of ['id', 'title', 'notes']) {
+    if (meta[field] !== undefined && typeof meta[field] !== 'string') {
+      throw new Error(`${path}: ${field} must be a string`);
+    }
+  }
+  if (meta.tags !== undefined && (!Array.isArray(meta.tags) || meta.tags.some((tag) => typeof tag !== 'string'))) {
+    throw new Error(`${path}: tags must be an array of strings`);
+  }
 }
 
 async function readOptionalJson(path) {
