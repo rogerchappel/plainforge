@@ -74,6 +74,14 @@ my-case/
 
 See [`fixtures/sample`](fixtures/sample) for working examples.
 
+When present, `meta.json` must contain a JSON object. `id`, `title`, and
+`notes` must be strings, while `tags` must be an array containing only strings.
+All fields may be omitted: the fixture directory name supplies `id` and
+`title`, with `[]` and an empty string used for `tags` and `notes`. Invalid
+metadata stops inspection with an error that names the fixture's `meta.json`
+file and the field that needs correction. Pipes and line breaks in these fields
+are escaped or normalized when Markdown reports are rendered.
+
 ## API
 
 ```js
