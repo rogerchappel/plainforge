@@ -94,6 +94,11 @@ const report = await inspectFixtures('fixtures/sample');
 console.log(report.summary);
 ```
 
+HTML numeric character references follow browser-style recovery: decimal and
+hexadecimal forms may omit the trailing semicolon, null, surrogate, and
+out-of-range values become `�`, and the HTML C1 replacement table is applied.
+Named entities continue to require a trailing semicolon.
+
 ## Safety boundaries
 
 Plainforge is intentionally boring and local:
