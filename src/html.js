@@ -6,18 +6,26 @@ const ENTITIES = new Map([
   ['amp', '&'], ['lt', '<'], ['gt', '>'], ['quot', '"'], ['apos', "'"], ['nbsp', ' '], ['copy', '©'], ['reg', '®'], ['mdash', '—'], ['ndash', '–'], ['hellip', '…']
 ]);
 
+const NUMERIC_REFERENCE_REPLACEMENTS = new Map([
+  [0x80, 0x20ac], [0x82, 0x201a], [0x83, 0x0192], [0x84, 0x201e], [0x85, 0x2026],
+  [0x86, 0x2020], [0x87, 0x2021], [0x88, 0x02c6], [0x89, 0x2030], [0x8a, 0x0160],
+  [0x8b, 0x2039], [0x8c, 0x0152], [0x8e, 0x017d], [0x91, 0x2018], [0x92, 0x2019],
+  [0x93, 0x201c], [0x94, 0x201d], [0x95, 0x2022], [0x96, 0x2013], [0x97, 0x2014],
+  [0x98, 0x02dc], [0x99, 0x2122], [0x9a, 0x0161], [0x9b, 0x203a], [0x9c, 0x0153],
+  [0x9e, 0x017e], [0x9f, 0x0178]
+]);
+
+function decodeNumericReference(entity) {
+  const hexadecimal = entity[1].toLowerCase() === 'x';
+  const numeric = Number.parseInt(entity.slice(hexadecimal ? 2 : 1), hexadecimal ? 16 : 10);
+  if (numeric === 0 || numeric > 0x10ffff || (numeric >= 0xd800 && numeric <= 0xdfff)) return '\ufffd';
+  return String.fromCodePoint(NUMERIC_REFERENCE_REPLACEMENTS.get(numeric) ?? numeric);
+}
+
 export function decodeEntities(value) {
-  return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (_, entity) => {
-    const key = entity.toLowerCase();
-    const numeric = key.startsWith('#x')
-      ? Number.parseInt(key.slice(2), 16)
-      : key.startsWith('#') ? Number.parseInt(key.slice(1), 10) : null;
-    if (numeric !== null) {
-      const isUnicodeScalar = numeric >= 0 && numeric <= 0x10FFFF
-        && !(numeric >= 0xD800 && numeric <= 0xDFFF);
-      return isUnicodeScalar ? String.fromCodePoint(numeric) : '\uFFFD';
-    }
-    return ENTITIES.get(key) ?? `&${entity};`;
+  return value.replace(/&(#(?:x[0-9a-f]+|[0-9]+));?|&([a-z]+);/gi, (match, numeric, named) => {
+    if (numeric) return decodeNumericReference(numeric);
+    return ENTITIES.get(named.toLowerCase()) ?? match;
   });
 }
 

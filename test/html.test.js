@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { convertHtmlToText, decodeEntities, normalizeText } from '../src/index.js';
+
+const entityCases = JSON.parse(readFileSync(new URL('./fixtures/html-entity-recovery.json', import.meta.url), 'utf8'));
 
 test('decodeEntities handles named and numeric entities', () => {
   assert.equal(decodeEntities('Tom &amp; Jerry &#169; &#x1F680;'), 'Tom & Jerry © 🚀');
@@ -8,6 +11,14 @@ test('decodeEntities handles named and numeric entities', () => {
 
 test('decodeEntities replaces numeric references outside Unicode', () => {
   assert.equal(decodeEntities('hex: &#x110000; decimal: &#999999999999;'), 'hex: � decimal: �');
+});
+
+test('decodeEntities follows HTML numeric reference recovery', () => {
+  for (const { name, input, expected } of entityCases) assert.equal(decodeEntities(input), expected, name);
+});
+
+test('convertHtmlToText exposes recovered characters instead of numeric controls', () => {
+  assert.equal(convertHtmlToText('<p>NUL: &#0; C1: &#x80;</p>').text, 'NUL: � C1: €');
 });
 
 test('normalizeText trims blank lines and repeated spaces', () => {
