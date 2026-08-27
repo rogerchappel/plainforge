@@ -1,0 +1,12 @@
+[
+  { "name": "null", "input": "A&#0;B", "expected": "A�B" },
+  { "name": "decimal C1 replacement", "input": "&#128;", "expected": "€" },
+  { "name": "hexadecimal C1 replacement", "input": "&#x9f;", "expected": "Ÿ" },
+  { "name": "surrogate", "input": "&#xD800;", "expected": "�" },
+  { "name": "maximum scalar", "input": "&#x10FFFF;", "expected": "􏿿" },
+  { "name": "out of range", "input": "&#x110000;", "expected": "�" },
+  { "name": "semicolonless decimal", "input": "A&#65 B", "expected": "AA B" },
+  { "name": "semicolonless hexadecimal", "input": "A&#x41 next", "expected": "AA next" },
+  { "name": "following decimal text is preserved", "input": "&#65next", "expected": "Anext" },
+  { "name": "following hexadecimal text is preserved", "input": "&#x41Z", "expected": "AZ" }
+]
