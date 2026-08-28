@@ -1,0 +1,6 @@
+{
+  "id": "html-recovery",
+  "title": "Named references and truncated markup",
+  "tags": ["entities", "recovery"],
+  "notes": "Decodes semicolon-terminated Latin references, preserves text comparisons, and omits an unclosed comment."
+}

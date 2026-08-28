@@ -97,7 +97,8 @@ console.log(report.summary);
 HTML numeric character references follow browser-style recovery: decimal and
 hexadecimal forms may omit the trailing semicolon, null, surrogate, and
 out-of-range values become `�`, and the HTML C1 replacement table is applied.
-Named entities continue to require a trailing semicolon.
+Common named references, including the HTML Latin-1 names such as `&ccedil;`
+and `&eacute;`, are decoded only when the trailing semicolon is present.
 
 ## Safety boundaries
 
@@ -113,6 +114,9 @@ Plainforge is intentionally boring and local:
 Treat fixture content as untrusted text. Plainforge does not execute HTML, JavaScript, CSS, or remote resources.
 Hidden `script`, `style`, `noscript`, `svg`, `template`, and `head` blocks are omitted; if one is truncated without a closing tag, its content is omitted through the end of the input.
 Tag and anchor boundaries respect single- and double-quoted attribute values, including `>` characters inside those values.
+HTML comments are omitted through their closing marker or the end of truncated
+input. Ordinary text comparisons containing `<` and `>` are retained rather
+than treated as tags.
 
 ## Development
 

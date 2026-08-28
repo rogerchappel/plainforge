@@ -1,9 +1,17 @@
 const BLOCK_TAGS = /<\/?(?:article|aside|blockquote|br|div|dl|dt|dd|figcaption|figure|footer|h[1-6]|header|hr|li|main|nav|ol|p|pre|section|table|tbody|td|tfoot|th|thead|tr|ul)(?=[\s/>])(?:"[^"]*"|'[^']*'|[^'">])*>/gi;
 const HIDDEN_BLOCKS = /<(script|style|noscript|svg|template|head)\b(?:"[^"]*"|'[^']*'|[^'">])*>[\s\S]*?(?:<\/\1\s*>|$)/gi;
-const HTML_TAG = /<(?:"[^"]*"|'[^']*'|[^'">])+>/g;
+const HTML_TAG = /<\/?[a-z][a-z0-9:-]*(?:\s+(?:"[^"]*"|'[^']*'|[^'">])*)?\s*\/?>|<!doctype(?:\s+(?:"[^"]*"|'[^']*'|[^'">])*)?>/gi;
 
 const ENTITIES = new Map([
   ['amp', '&'], ['lt', '<'], ['gt', '>'], ['quot', '"'], ['apos', "'"], ['nbsp', ' '], ['copy', '©'], ['reg', '®'], ['mdash', '—'], ['ndash', '–'], ['hellip', '…']
+  , ['Agrave', 'À'], ['Aacute', 'Á'], ['Acirc', 'Â'], ['Atilde', 'Ã'], ['Auml', 'Ä'], ['Aring', 'Å'], ['AElig', 'Æ'], ['Ccedil', 'Ç'],
+  ['Egrave', 'È'], ['Eacute', 'É'], ['Ecirc', 'Ê'], ['Euml', 'Ë'], ['Igrave', 'Ì'], ['Iacute', 'Í'], ['Icirc', 'Î'], ['Iuml', 'Ï'],
+  ['ETH', 'Ð'], ['Ntilde', 'Ñ'], ['Ograve', 'Ò'], ['Oacute', 'Ó'], ['Ocirc', 'Ô'], ['Otilde', 'Õ'], ['Ouml', 'Ö'], ['Oslash', 'Ø'],
+  ['Ugrave', 'Ù'], ['Uacute', 'Ú'], ['Ucirc', 'Û'], ['Uuml', 'Ü'], ['Yacute', 'Ý'], ['THORN', 'Þ'], ['szlig', 'ß'],
+  ['agrave', 'à'], ['aacute', 'á'], ['acirc', 'â'], ['atilde', 'ã'], ['auml', 'ä'], ['aring', 'å'], ['aelig', 'æ'], ['ccedil', 'ç'],
+  ['egrave', 'è'], ['eacute', 'é'], ['ecirc', 'ê'], ['euml', 'ë'], ['igrave', 'ì'], ['iacute', 'í'], ['icirc', 'î'], ['iuml', 'ï'],
+  ['eth', 'ð'], ['ntilde', 'ñ'], ['ograve', 'ò'], ['oacute', 'ó'], ['ocirc', 'ô'], ['otilde', 'õ'], ['ouml', 'ö'], ['oslash', 'ø'],
+  ['ugrave', 'ù'], ['uacute', 'ú'], ['ucirc', 'û'], ['uuml', 'ü'], ['yacute', 'ý'], ['thorn', 'þ'], ['yuml', 'ÿ']
 ]);
 
 const NUMERIC_REFERENCE_REPLACEMENTS = new Map([
@@ -25,7 +33,7 @@ function decodeNumericReference(entity) {
 export function decodeEntities(value) {
   return value.replace(/&(#(?:x[0-9a-f]+|[0-9]+));?|&([a-z]+);/gi, (match, numeric, named) => {
     if (numeric) return decodeNumericReference(numeric);
-    return ENTITIES.get(named.toLowerCase()) ?? match;
+    return ENTITIES.get(named) ?? ENTITIES.get(named.toLowerCase()) ?? match;
   });
 }
 
@@ -50,7 +58,7 @@ export function convertHtmlToText(html, options = {}) {
   const text = decodeEntities(
     withLinks
       .replace(HIDDEN_BLOCKS, ' ')
-      .replace(/<!--([\s\S]*?)-->/g, ' ')
+      .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
       .replace(BLOCK_TAGS, '\n')
       .replace(HTML_TAG, ' ')
   );
