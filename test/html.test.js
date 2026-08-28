@@ -9,6 +9,12 @@ test('decodeEntities handles named and numeric entities', () => {
   assert.equal(decodeEntities('Tom &amp; Jerry &#169; &#x1F680;'), 'Tom & Jerry © 🚀');
 });
 
+test('decodeEntities handles semicolon-terminated Latin named references', () => {
+  assert.equal(decodeEntities('Fran&ccedil;ais &eacute;lan'), 'Français élan');
+  assert.equal(decodeEntities('&Ccedil; &Eacute; &uuml;'), 'Ç É ü');
+  assert.equal(decodeEntities('&eacute and &unknown;'), '&eacute and &unknown;');
+});
+
 test('decodeEntities replaces numeric references outside Unicode', () => {
   assert.equal(decodeEntities('hex: &#x110000; decimal: &#999999999999;'), 'hex: � decimal: �');
 });
@@ -55,6 +61,16 @@ test('convertHtmlToText excludes unclosed hidden blocks through the end of trunc
     const result = convertHtmlToText(`<p>Visible</p><${tag} data-test="hidden">secret`);
     assert.equal(result.text, 'Visible', tag);
   }
+});
+
+test('convertHtmlToText excludes an unclosed comment through end of input', () => {
+  assert.equal(convertHtmlToText('<p>Visible</p><!-- hidden to EOF').text, 'Visible');
+  assert.equal(convertHtmlToText('before <!-- hidden --> after').text, 'before after');
+});
+
+test('convertHtmlToText preserves ordinary less-than and greater-than comparisons', () => {
+  assert.equal(convertHtmlToText('2 < 3 and 4 > 1').text, '2 < 3 and 4 > 1');
+  assert.equal(convertHtmlToText('<p>2 < 3</p><em>still text</em>').text, '2 < 3\nstill text');
 });
 
 test('convertHtmlToText omits hidden blocks with greater-than signs in quoted attributes', () => {
