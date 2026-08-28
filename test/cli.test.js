@@ -29,7 +29,7 @@ test('CLI inspect writes a report', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'plainforge-cli-'));
   try {
     const { stdout } = await execFileAsync('node', ['bin/plainforge.js', 'inspect', 'fixtures/sample', '--output', dir]);
-    assert.match(stdout, /3 passed, 0 failed/);
+    assert.match(stdout, /4 passed, 0 failed/);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
