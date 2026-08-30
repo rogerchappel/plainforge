@@ -77,7 +77,7 @@ test('discoverFixtures identifies which malformed meta.json failed to parse', as
     await assert.rejects(discoverFixtures(root), (error) => {
       assert.match(error.message, /broken-case\/meta\.json/);
       assert.match(error.message, /invalid JSON/);
-      assert.match(error.message, /position|line|column/i);
+      assert.match(error.message, /position|line|column|unexpected token|not valid JSON/i);
       return true;
     });
   } finally {

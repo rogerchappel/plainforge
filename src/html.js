@@ -3,7 +3,9 @@ const HIDDEN_BLOCKS = /<(script|style|noscript|svg|template|head)\b(?:"[^"]*"|'[
 const HTML_TAG = /<\/?[a-z][a-z0-9:-]*(?:\s+(?:"[^"]*"|'[^']*'|[^'">])*)?\s*\/?>|<!doctype(?:\s+(?:"[^"]*"|'[^']*'|[^'">])*)?>/gi;
 
 const ENTITIES = new Map([
-  ['amp', '&'], ['lt', '<'], ['gt', '>'], ['quot', '"'], ['apos', "'"], ['nbsp', ' '], ['copy', '©'], ['reg', '®'], ['mdash', '—'], ['ndash', '–'], ['hellip', '…']
+  ['amp', '&'], ['lt', '<'], ['gt', '>'], ['quot', '"'], ['apos', "'"], ['nbsp', ' '], ['copy', '©'], ['reg', '®'],
+  ['trade', '™'], ['euro', '€'], ['lsquo', '‘'], ['rsquo', '’'], ['ldquo', '“'], ['rdquo', '”'], ['bull', '•'],
+  ['mdash', '—'], ['ndash', '–'], ['hellip', '…'], ['permil', '‰'], ['lsaquo', '‹'], ['rsaquo', '›']
   , ['Agrave', 'À'], ['Aacute', 'Á'], ['Acirc', 'Â'], ['Atilde', 'Ã'], ['Auml', 'Ä'], ['Aring', 'Å'], ['AElig', 'Æ'], ['Ccedil', 'Ç'],
   ['Egrave', 'È'], ['Eacute', 'É'], ['Ecirc', 'Ê'], ['Euml', 'Ë'], ['Igrave', 'Ì'], ['Iacute', 'Í'], ['Icirc', 'Î'], ['Iuml', 'Ï'],
   ['ETH', 'Ð'], ['Ntilde', 'Ñ'], ['Ograve', 'Ò'], ['Oacute', 'Ó'], ['Ocirc', 'Ô'], ['Otilde', 'Õ'], ['Ouml', 'Ö'], ['Oslash', 'Ø'],
