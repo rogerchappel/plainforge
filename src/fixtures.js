@@ -50,6 +50,9 @@ async function readOptionalJson(path) {
     return JSON.parse(await readFile(path, 'utf8'));
   } catch (error) {
     if (error.code === 'ENOENT') return {};
+    if (error instanceof SyntaxError) {
+      throw new SyntaxError(`${path}: invalid JSON: ${error.message}`, { cause: error });
+    }
     throw error;
   }
 }
