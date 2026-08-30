@@ -15,6 +15,11 @@ test('decodeEntities handles semicolon-terminated Latin named references', () =>
   assert.equal(decodeEntities('&eacute and &unknown;'), '&eacute and &unknown;');
 });
 
+test('decodeEntities handles common semicolon-terminated symbolic references', () => {
+  assert.equal(decodeEntities('&trade; &euro; &ldquo;quoted&rdquo;'), '™ € “quoted”');
+  assert.equal(decodeEntities('&trade &euro &ldquo &not-a-reference;'), '&trade &euro &ldquo &not-a-reference;');
+});
+
 test('decodeEntities replaces numeric references outside Unicode', () => {
   assert.equal(decodeEntities('hex: &#x110000; decimal: &#999999999999;'), 'hex: � decimal: �');
 });
