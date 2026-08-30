@@ -16,8 +16,11 @@ Plainforge was inspired by the existence of adjacent `html2text` projects, inclu
 
 ## Install
 
+Plainforge 0.1.0 is not currently available from the npm registry. Install the
+published GitHub release tarball instead:
+
 ```sh
-npm install plainforge
+npm install https://github.com/rogerchappel/plainforge/releases/download/v0.1.0/plainforge-0.1.0.tgz
 ```
 
 For local development you can run the CLI directly:
@@ -26,9 +29,9 @@ For local development you can run the CLI directly:
 node bin/plainforge.js --help
 ```
 
-The npm package exposes a `plainforge` binary. For repository development, use
-`npm ci` instead of the install command above and run the CLI directly with
-`node bin/plainforge.js --help`.
+The installed package exposes a `plainforge` binary and the public API shown
+below. For repository development, use `npm ci` instead of the release-tarball
+install command and run the CLI directly with `node bin/plainforge.js --help`.
 
 ## Quickstart
 
@@ -160,13 +163,14 @@ The package smoke uses `npm pack --dry-run` so the published file list can be re
 It also installs the generated tarball in a temporary project and checks the public import, CLI help, conversion, and fixture inspection paths.
 
 Tagged releases require the tag to exactly match the package version (for
-example, `v0.2.0` for `plainforge@0.2.0`). The release workflow runs the full
-gate, packs and validates one tarball, then publishes that exact artifact to npm
-with trusted publishing before attaching it to the GitHub release.
+example, `v0.2.0` for `plainforge@0.2.0`). The release workflow is intended to
+run the full gate, pack and validate one tarball, publish that artifact to npm
+with trusted publishing, and then attach it to the GitHub release. Verify npm
+registry availability independently: an existing GitHub release and attached
+tarball do not prove that npm publication succeeded or remains available.
 
-If validation or npm publication fails, no GitHub release is created. Correct
-the version, tag, trusted-publisher configuration, or registry issue, delete the
-failed remote tag if necessary, and rerun the release with a new or corrected
-tag. If npm publication succeeds but GitHub release creation fails, do not
-republish the immutable npm version; rerun only the GitHub release creation with
-the validated tarball from the workflow run.
+For a failed or partial release, inspect the workflow run and both distribution
+targets before retrying. Correct validation, trusted-publisher, or registry
+configuration first. Never republish a version that already exists on npm;
+recover only the missing distribution step with the already validated artifact,
+or issue a new version when the original npm publication did not complete.
