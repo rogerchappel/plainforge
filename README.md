@@ -82,8 +82,11 @@ When present, `meta.json` must contain a JSON object. `id`, `title`, and
 All fields may be omitted: the fixture directory name supplies `id` and
 `title`, with `[]` and an empty string used for `tags` and `notes`. Invalid
 metadata stops inspection with an error that names the fixture's `meta.json`
-file and the field that needs correction. Pipes and line breaks in these fields
-are escaped or normalized when Markdown reports are rendered.
+file and the field that needs correction. Malformed JSON likewise reports the
+exact `meta.json` path together with the parser's syntax context, so a broken
+fixture can be identified when inspecting a directory of fixtures. Pipes and
+line breaks in these fields are escaped or normalized when Markdown reports
+are rendered.
 
 ## API
 
@@ -100,8 +103,9 @@ console.log(report.summary);
 HTML numeric character references follow browser-style recovery: decimal and
 hexadecimal forms may omit the trailing semicolon, null, surrogate, and
 out-of-range values become `�`, and the HTML C1 replacement table is applied.
-Common named references, including the HTML Latin-1 names such as `&ccedil;`
-and `&eacute;`, are decoded only when the trailing semicolon is present.
+Common named references, including HTML Latin-1 names such as `&ccedil;` and
+`&eacute;` and symbols such as `&trade;`, `&euro;`, and `&ldquo;`, are decoded only
+when the trailing semicolon is present. Unknown named references are preserved.
 
 ## Safety boundaries
 
