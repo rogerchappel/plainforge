@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const workflow = await readFile(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8');
+const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
 const releasebox = JSON.parse(await readFile(new URL('../releasebox.config.json', import.meta.url), 'utf8'));
 
 function position(fragment) {
@@ -29,4 +30,17 @@ test('release checks and one artifact validation precede publication', () => {
   assert.ok(validation < publish, 'artifact validation must run before npm publication');
   assert.ok(publish < githubRelease, 'npm publication must succeed before creating the GitHub release');
   assert.doesNotMatch(workflow, /\*\.tgz/, 'release workflow must not use an unchecked tarball wildcard');
+});
+
+test('installation guidance names the supported v0.1.0 distribution', () => {
+  assert.match(
+    readme,
+    /npm install https:\/\/github\.com\/rogerchappel\/plainforge\/releases\/download\/v0\.1\.0\/plainforge-0\.1\.0\.tgz/,
+  );
+  assert.match(readme, /not currently available from the npm registry/i);
+  assert.doesNotMatch(
+    readme,
+    /If validation or npm publication fails, no GitHub release is created/,
+    'release recovery guidance must not treat a GitHub release as proof of npm publication',
+  );
 });
