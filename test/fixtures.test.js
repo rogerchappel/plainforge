@@ -63,3 +63,24 @@ test('loadFixture rejects malformed metadata with the metadata path', async () =
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test('discoverFixtures identifies which malformed meta.json failed to parse', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'plainforge-fixtures-'));
+  try {
+    for (const name of ['valid-case', 'broken-case']) {
+      const fixtureDir = join(root, name);
+      await mkdir(fixtureDir);
+      await writeFile(join(fixtureDir, 'input.html'), '<p>Expected</p>');
+      await writeFile(join(fixtureDir, 'expected.txt'), 'Expected');
+      await writeFile(join(fixtureDir, 'meta.json'), name === 'valid-case' ? '{}' : '{"title": }');
+    }
+    await assert.rejects(discoverFixtures(root), (error) => {
+      assert.match(error.message, /broken-case\/meta\.json/);
+      assert.match(error.message, /invalid JSON/);
+      assert.match(error.message, /position|line|column/i);
+      return true;
+    });
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
