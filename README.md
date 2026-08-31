@@ -77,6 +77,11 @@ my-case/
 
 See [`fixtures/sample`](fixtures/sample) for working examples.
 
+Conversion decodes semicolon-terminated named references used by the bundled
+fixtures, including common currency (`&pound;`, `&cent;`, `&yen;`) and mathematical
+(`&notin;`, `&le;`, `&ge;`) references. Unknown named references remain
+unchanged so fixture comparisons do not silently discard source text.
+
 When present, `meta.json` must contain a JSON object. `id`, `title`, and
 `notes` must be strings, while `tags` must be an array containing only strings.
 All fields may be omitted: the fixture directory name supplies `id` and
