@@ -7,13 +7,13 @@ import { discoverFixtures, inspectFixtures, loadFixture } from '../src/index.js'
 
 test('discoverFixtures loads fixture metadata in stable order', async () => {
   const fixtures = await discoverFixtures('fixtures/sample');
-  assert.deepEqual(fixtures.map((fixture) => fixture.id), ['basic-link', 'html-recovery', 'script-noise', 'table-list']);
+  assert.deepEqual(fixtures.map((fixture) => fixture.id), ['basic-link', 'currency-math', 'html-recovery', 'script-noise', 'table-list']);
   assert.equal(fixtures[0].tags.includes('links'), true);
 });
 
 test('inspectFixtures passes bundled sample fixtures', async () => {
   const report = await inspectFixtures('fixtures/sample');
-  assert.equal(report.summary.total, 4);
+  assert.equal(report.summary.total, 5);
   assert.equal(report.summary.failed, 0);
 });
 

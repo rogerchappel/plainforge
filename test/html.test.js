@@ -9,6 +9,14 @@ test('decodeEntities handles named and numeric entities', () => {
   assert.equal(decodeEntities('Tom &amp; Jerry &#169; &#x1F680;'), 'Tom & Jerry © 🚀');
 });
 
+test('decodeEntities handles common currency and math references', () => {
+  assert.equal(decodeEntities('&pound; &cent; &yen; &notin; &le; &ge;'), '£ ¢ ¥ ∉ ≤ ≥');
+});
+
+test('decodeEntities preserves unknown references and ignores name case', () => {
+  assert.equal(decodeEntities('&POUND; &NotIn; &madeup;'), '£ ∉ &madeup;');
+});
+
 test('decodeEntities handles semicolon-terminated Latin named references', () => {
   assert.equal(decodeEntities('Fran&ccedil;ais &eacute;lan'), 'Français élan');
   assert.equal(decodeEntities('&Ccedil; &Eacute; &uuml;'), 'Ç É ü');

@@ -1,0 +1,6 @@
+{
+  "id": "currency-math",
+  "title": "Currency and mathematical references",
+  "tags": ["entities", "currency", "math"],
+  "notes": "Decodes common semicolon-terminated currency and mathematical named references."
+}
