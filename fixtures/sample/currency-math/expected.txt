@@ -1,0 +1,3 @@
+Reference prices
+£12, ¢50, and ¥900
+x ∉ A; floor ≤ x ≤ ceiling; x ≥ 0
