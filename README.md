@@ -79,7 +79,9 @@ See [`fixtures/sample`](fixtures/sample) for working examples.
 
 Conversion decodes semicolon-terminated named references used by the bundled
 fixtures, including common currency (`&pound;`, `&cent;`, `&yen;`) and mathematical
-(`&notin;`, `&le;`, `&ge;`) references. Unknown named references remain
+(`&notin;`, `&le;`, `&ge;`) references. The complete HTML Latin-1 set is
+supported, so `&frac12;`, `&times;`, and `&divide;` become `½`, `×`, and `÷`.
+Unknown named references remain
 unchanged so fixture comparisons do not silently discard source text.
 
 When present, `meta.json` must contain a JSON object. `id`, `title`, and
@@ -109,7 +111,8 @@ HTML numeric character references follow browser-style recovery: decimal and
 hexadecimal forms may omit the trailing semicolon, null, surrogate, and
 out-of-range values become `�`, and the HTML C1 replacement table is applied.
 Common named references, including HTML Latin-1 names such as `&ccedil;` and
-`&eacute;` and symbols such as `&trade;`, `&euro;`, and `&ldquo;`, are decoded only
+`&eacute;`, `&frac12;`, `&times;`, and `&divide;` and symbols such as `&trade;`,
+`&euro;`, and `&ldquo;`, are decoded only
 when the trailing semicolon is present. Unknown named references are preserved.
 
 ## Safety boundaries

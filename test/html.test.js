@@ -23,6 +23,20 @@ test('decodeEntities handles semicolon-terminated Latin named references', () =>
   assert.equal(decodeEntities('&eacute and &unknown;'), '&eacute and &unknown;');
 });
 
+test('decodeEntities handles the remaining HTML Latin-1 named references', () => {
+  assert.equal(
+    decodeEntities('&iexcl; &curren; &brvbar; &sect; &uml; &ordf; &laquo; &not; &shy; &macr; &deg; &plusmn; &sup2; &sup3; &acute; &micro; &para; &middot; &cedil; &sup1; &ordm; &raquo; &frac14; &frac12; &frac34; &iquest; &times; &divide;'),
+    '¡ ¤ ¦ § ¨ ª « ¬ \u00ad ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ × ÷'
+  );
+});
+
+test('convertHtmlToText exposes Latin-1 fractions and operators', () => {
+  assert.equal(
+    convertHtmlToText('<p>One half: &frac12; multiply: &times; divide: &divide;</p>').text,
+    'One half: ½ multiply: × divide: ÷'
+  );
+});
+
 test('decodeEntities handles common semicolon-terminated symbolic references', () => {
   assert.equal(decodeEntities('&trade; &euro; &ldquo;quoted&rdquo;'), '™ € “quoted”');
   assert.equal(decodeEntities('&trade &euro &ldquo &not-a-reference;'), '&trade &euro &ldquo &not-a-reference;');
