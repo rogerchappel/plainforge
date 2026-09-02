@@ -5,6 +5,10 @@ const HTML_TAG = /<\/?[a-z][a-z0-9:-]*(?:\s+(?:"[^"]*"|'[^']*'|[^'">])*)?\s*\/?>
 const ENTITIES = new Map([
   ['amp', '&'], ['lt', '<'], ['gt', '>'], ['quot', '"'], ['apos', "'"], ['nbsp', ' '], ['copy', '©'], ['reg', '®'],
   ['trade', '™'], ['euro', '€'], ['pound', '£'], ['cent', '¢'], ['yen', '¥'], ['notin', '∉'], ['le', '≤'], ['ge', '≥'],
+  ['iexcl', '¡'], ['curren', '¤'], ['brvbar', '¦'], ['sect', '§'], ['uml', '¨'], ['ordf', 'ª'], ['laquo', '«'],
+  ['not', '¬'], ['shy', '­'], ['macr', '¯'], ['deg', '°'], ['plusmn', '±'], ['sup2', '²'], ['sup3', '³'],
+  ['acute', '´'], ['micro', 'µ'], ['para', '¶'], ['middot', '·'], ['cedil', '¸'], ['sup1', '¹'], ['ordm', 'º'],
+  ['raquo', '»'], ['frac14', '¼'], ['frac12', '½'], ['frac34', '¾'], ['iquest', '¿'], ['times', '×'], ['divide', '÷'],
   ['lsquo', '‘'], ['rsquo', '’'], ['ldquo', '“'], ['rdquo', '”'], ['bull', '•'],
   ['mdash', '—'], ['ndash', '–'], ['hellip', '…'], ['permil', '‰'], ['lsaquo', '‹'], ['rsaquo', '›']
   , ['Agrave', 'À'], ['Aacute', 'Á'], ['Acirc', 'Â'], ['Atilde', 'Ã'], ['Auml', 'Ä'], ['Aring', 'Å'], ['AElig', 'Æ'], ['Ccedil', 'Ç'],
@@ -34,7 +38,7 @@ function decodeNumericReference(entity) {
 }
 
 export function decodeEntities(value) {
-  return value.replace(/&(#(?:x[0-9a-f]+|[0-9]+));?|&([a-z]+);/gi, (match, numeric, named) => {
+  return value.replace(/&(#(?:x[0-9a-f]+|[0-9]+));?|&([a-z][a-z0-9]+);/gi, (match, numeric, named) => {
     if (numeric) return decodeNumericReference(numeric);
     return ENTITIES.get(named) ?? ENTITIES.get(named.toLowerCase()) ?? match;
   });
