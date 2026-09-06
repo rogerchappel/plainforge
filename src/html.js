@@ -38,9 +38,9 @@ function decodeNumericReference(entity) {
 }
 
 export function decodeEntities(value) {
-  return value.replace(/&(#(?:x[0-9a-f]+|[0-9]+));?|&([a-z][a-z0-9]+);/gi, (match, numeric, named) => {
+  return value.replace(/&(#(?:[xX][0-9a-fA-F]+|[0-9]+));?|&([A-Za-z][A-Za-z0-9]+);/g, (match, numeric, named) => {
     if (numeric) return decodeNumericReference(numeric);
-    return ENTITIES.get(named) ?? ENTITIES.get(named.toLowerCase()) ?? match;
+    return ENTITIES.get(named) ?? match;
   });
 }
 
