@@ -19,6 +19,7 @@ This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ### Fixed
 
+- Preserve undefined mixed- or uppercase named references instead of decoding them case-insensitively.
 - Decode the complete semicolon-terminated HTML Latin-1 named-reference set.
 - Decode common semicolon-terminated currency and mathematical named references.
 - Omit hidden block contents when truncated HTML ends before the closing tag.

@@ -81,7 +81,8 @@ Conversion decodes semicolon-terminated named references used by the bundled
 fixtures, including common currency (`&pound;`, `&cent;`, `&yen;`) and mathematical
 (`&notin;`, `&le;`, `&ge;`) references. The complete HTML Latin-1 set is
 supported, so `&frac12;`, `&times;`, and `&divide;` become `½`, `×`, and `÷`.
-Unknown named references remain
+Named references are case-sensitive: defined aliases such as `&Aacute;` decode,
+while undefined spellings such as `&AACUTE;` remain unchanged. Unknown named references remain
 unchanged so fixture comparisons do not silently discard source text.
 
 When present, `meta.json` must contain a JSON object. `id`, `title`, and
@@ -113,7 +114,8 @@ out-of-range values become `�`, and the HTML C1 replacement table is applied.
 Common named references, including HTML Latin-1 names such as `&ccedil;` and
 `&eacute;`, `&frac12;`, `&times;`, and `&divide;` and symbols such as `&trade;`,
 `&euro;`, and `&ldquo;`, are decoded only
-when the trailing semicolon is present. Unknown named references are preserved.
+when the trailing semicolon is present and the name's case exactly matches a
+defined reference. Unknown or differently cased named references are preserved.
 
 ## Safety boundaries
 
