@@ -13,8 +13,8 @@ test('decodeEntities handles common currency and math references', () => {
   assert.equal(decodeEntities('&pound; &cent; &yen; &notin; &le; &ge;'), '£ ¢ ¥ ∉ ≤ ≥');
 });
 
-test('decodeEntities preserves unknown references and ignores name case', () => {
-  assert.equal(decodeEntities('&POUND; &NotIn; &madeup;'), '£ ∉ &madeup;');
+test('decodeEntities preserves undefined reference spellings case-sensitively', () => {
+  assert.equal(decodeEntities('&Aacute; &aacute; &AACUTE; &POUND; &NotIn; &madeup;'), 'Á á &AACUTE; &POUND; &NotIn; &madeup;');
 });
 
 test('decodeEntities handles semicolon-terminated Latin named references', () => {
