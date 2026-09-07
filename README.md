@@ -79,8 +79,10 @@ See [`fixtures/sample`](fixtures/sample) for working examples.
 
 Conversion decodes semicolon-terminated named references used by the bundled
 fixtures, including common currency (`&pound;`, `&cent;`, `&yen;`) and mathematical
-(`&notin;`, `&le;`, `&ge;`) references. The complete HTML Latin-1 set is
-supported, so `&frac12;`, `&times;`, and `&divide;` become `½`, `×`, and `÷`.
+(`&notin;`, `&le;`, `&ge;`) references. It also supports the HTML 4 Greek-letter
+set, common mathematical operators and relations, and directional arrows (for
+example, `&alpha;`, `&sum;`, `&ne;`, and `&rarr;`). The complete HTML Latin-1
+set is supported, so `&frac12;`, `&times;`, and `&divide;` become `½`, `×`, and `÷`.
 Named references are case-sensitive: defined aliases such as `&Aacute;` decode,
 while undefined spellings such as `&AACUTE;` remain unchanged. Unknown named references remain
 unchanged so fixture comparisons do not silently discard source text.
@@ -113,9 +115,10 @@ hexadecimal forms may omit the trailing semicolon, null, surrogate, and
 out-of-range values become `�`, and the HTML C1 replacement table is applied.
 Common named references, including HTML Latin-1 names such as `&ccedil;` and
 `&eacute;`, `&frac12;`, `&times;`, and `&divide;` and symbols such as `&trade;`,
-`&euro;`, and `&ldquo;`, are decoded only
-when the trailing semicolon is present and the name's case exactly matches a
-defined reference. Unknown or differently cased named references are preserved.
+`&euro;`, and `&ldquo;`, are supported alongside Greek letters, mathematical
+operators and relations, and arrows. Named references are decoded only when
+the trailing semicolon is present and the name's case exactly matches a defined
+reference. Unknown or differently cased named references are preserved.
 
 ## Safety boundaries
 
