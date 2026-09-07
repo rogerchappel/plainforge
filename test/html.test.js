@@ -13,6 +13,24 @@ test('decodeEntities handles common currency and math references', () => {
   assert.equal(decodeEntities('&pound; &cent; &yen; &notin; &le; &ge;'), '£ ¢ ¥ ∉ ≤ ≥');
 });
 
+test('decodeEntities handles common Greek, mathematical, and arrow references', () => {
+  const cases = [
+    ['Greek letters', '&Alpha; &Omega; &alpha; &beta; &omega;', 'Α Ω α β ω'],
+    ['mathematical operators', '&forall; &part; &prod; &sum; &radic; &int;', '∀ ∂ ∏ ∑ √ ∫'],
+    ['mathematical relations', '&isin; &notin; &ne; &equiv; &sube; &perp;', '∈ ∉ ≠ ≡ ⊆ ⊥'],
+    ['directional arrows', '&larr; &uarr; &rarr; &darr; &harr; &rArr;', '← ↑ → ↓ ↔ ⇒']
+  ];
+
+  for (const [name, input, expected] of cases) assert.equal(decodeEntities(input), expected, name);
+});
+
+test('convertHtmlToText exposes common named-reference symbols', () => {
+  assert.equal(
+    convertHtmlToText('<p>&alpha; + &beta; &ne; &sum; &rarr; &Omega;</p>').text,
+    'α + β ≠ ∑ → Ω'
+  );
+});
+
 test('decodeEntities preserves undefined reference spellings case-sensitively', () => {
   assert.equal(decodeEntities('&Aacute; &aacute; &AACUTE; &POUND; &NotIn; &madeup;'), 'Á á &AACUTE; &POUND; &NotIn; &madeup;');
 });
