@@ -18,7 +18,21 @@ const ENTITIES = new Map([
   ['agrave', 'à'], ['aacute', 'á'], ['acirc', 'â'], ['atilde', 'ã'], ['auml', 'ä'], ['aring', 'å'], ['aelig', 'æ'], ['ccedil', 'ç'],
   ['egrave', 'è'], ['eacute', 'é'], ['ecirc', 'ê'], ['euml', 'ë'], ['igrave', 'ì'], ['iacute', 'í'], ['icirc', 'î'], ['iuml', 'ï'],
   ['eth', 'ð'], ['ntilde', 'ñ'], ['ograve', 'ò'], ['oacute', 'ó'], ['ocirc', 'ô'], ['otilde', 'õ'], ['ouml', 'ö'], ['oslash', 'ø'],
-  ['ugrave', 'ù'], ['uacute', 'ú'], ['ucirc', 'û'], ['uuml', 'ü'], ['yacute', 'ý'], ['thorn', 'þ'], ['yuml', 'ÿ']
+  ['ugrave', 'ù'], ['uacute', 'ú'], ['ucirc', 'û'], ['uuml', 'ü'], ['yacute', 'ý'], ['thorn', 'þ'], ['yuml', 'ÿ'],
+  ['Alpha', 'Α'], ['Beta', 'Β'], ['Gamma', 'Γ'], ['Delta', 'Δ'], ['Epsilon', 'Ε'], ['Zeta', 'Ζ'], ['Eta', 'Η'], ['Theta', 'Θ'],
+  ['Iota', 'Ι'], ['Kappa', 'Κ'], ['Lambda', 'Λ'], ['Mu', 'Μ'], ['Nu', 'Ν'], ['Xi', 'Ξ'], ['Omicron', 'Ο'], ['Pi', 'Π'],
+  ['Rho', 'Ρ'], ['Sigma', 'Σ'], ['Tau', 'Τ'], ['Upsilon', 'Υ'], ['Phi', 'Φ'], ['Chi', 'Χ'], ['Psi', 'Ψ'], ['Omega', 'Ω'],
+  ['alpha', 'α'], ['beta', 'β'], ['gamma', 'γ'], ['delta', 'δ'], ['epsilon', 'ε'], ['zeta', 'ζ'], ['eta', 'η'], ['theta', 'θ'],
+  ['iota', 'ι'], ['kappa', 'κ'], ['lambda', 'λ'], ['mu', 'μ'], ['nu', 'ν'], ['xi', 'ξ'], ['omicron', 'ο'], ['pi', 'π'],
+  ['rho', 'ρ'], ['sigmaf', 'ς'], ['sigma', 'σ'], ['tau', 'τ'], ['upsilon', 'υ'], ['phi', 'φ'], ['chi', 'χ'], ['psi', 'ψ'],
+  ['omega', 'ω'], ['thetasym', 'ϑ'], ['upsih', 'ϒ'], ['piv', 'ϖ'],
+  ['forall', '∀'], ['part', '∂'], ['exist', '∃'], ['empty', '∅'], ['nabla', '∇'], ['isin', '∈'], ['ni', '∋'], ['prod', '∏'],
+  ['sum', '∑'], ['minus', '−'], ['lowast', '∗'], ['radic', '√'], ['prop', '∝'], ['infin', '∞'], ['ang', '∠'], ['and', '∧'],
+  ['or', '∨'], ['cap', '∩'], ['cup', '∪'], ['int', '∫'], ['there4', '∴'], ['sim', '∼'], ['cong', '≅'], ['asymp', '≈'],
+  ['ne', '≠'], ['equiv', '≡'], ['sub', '⊂'], ['sup', '⊃'], ['nsub', '⊄'], ['sube', '⊆'], ['supe', '⊇'], ['oplus', '⊕'],
+  ['otimes', '⊗'], ['perp', '⊥'], ['sdot', '⋅'],
+  ['larr', '←'], ['uarr', '↑'], ['rarr', '→'], ['darr', '↓'], ['harr', '↔'], ['crarr', '↵'],
+  ['lArr', '⇐'], ['uArr', '⇑'], ['rArr', '⇒'], ['dArr', '⇓'], ['hArr', '⇔']
 ]);
 
 const NUMERIC_REFERENCE_REPLACEMENTS = new Map([
