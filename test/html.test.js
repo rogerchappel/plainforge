@@ -9,6 +9,25 @@ test('decodeEntities handles named and numeric entities', () => {
   assert.equal(decodeEntities('Tom &amp; Jerry &#169; &#x1F680;'), 'Tom & Jerry © 🚀');
 });
 
+test('decodeEntities handles semicolonless legacy named references in text', () => {
+  const cases = [
+    ['Fish &amp chips', 'Fish & chips'],
+    ['Copyright &copy 2026', 'Copyright © 2026'],
+    ['Marks &lt &gt &quot &nbsp &reg', 'Marks < > "   ®']
+  ];
+  for (const [input, expected] of cases) assert.equal(decodeEntities(input), expected);
+});
+
+test('decodeEntities preserves ambiguous and unknown semicolonless references', () => {
+  const cases = [
+    ['Rock &ampersand', 'Rock &ampersand'],
+    ['Copyright &copycat', 'Copyright &copycat'],
+    ['Unknown &madeup name', 'Unknown &madeup name'],
+    ['Modern &mdash text', 'Modern &mdash text']
+  ];
+  for (const [input, expected] of cases) assert.equal(decodeEntities(input), expected);
+});
+
 test('decodeEntities handles common currency and math references', () => {
   assert.equal(decodeEntities('&pound; &cent; &yen; &notin; &le; &ge;'), '£ ¢ ¥ ∉ ≤ ≥');
 });

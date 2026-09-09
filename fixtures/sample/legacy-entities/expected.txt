@@ -1,0 +1,3 @@
+Fish & chips
+Copyright © 2026 Plainforge.
+Keep ambiguous text such as &copycat unchanged.

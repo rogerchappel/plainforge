@@ -84,8 +84,11 @@ set, common mathematical operators and relations, and directional arrows (for
 example, `&alpha;`, `&sum;`, `&ne;`, and `&rarr;`). The complete HTML Latin-1
 set is supported, so `&frac12;`, `&times;`, and `&divide;` become `½`, `×`, and `÷`.
 Named references are case-sensitive: defined aliases such as `&Aacute;` decode,
-while undefined spellings such as `&AACUTE;` remain unchanged. Unknown named references remain
-unchanged so fixture comparisons do not silently discard source text.
+while undefined spellings such as `&AACUTE;` remain unchanged. Historical text
+references `amp`, `lt`, `gt`, `quot`, `nbsp`, `copy`, and `reg` may omit the
+semicolon when the following character is not alphanumeric. Unknown or
+ambiguous references remain unchanged so fixture comparisons do not silently
+discard source text.
 
 When present, `meta.json` must contain a JSON object. `id`, `title`, and
 `notes` must be strings, while `tags` must be an array containing only strings.
@@ -116,9 +119,10 @@ out-of-range values become `�`, and the HTML C1 replacement table is applied.
 Common named references, including HTML Latin-1 names such as `&ccedil;` and
 `&eacute;`, `&frac12;`, `&times;`, and `&divide;` and symbols such as `&trade;`,
 `&euro;`, and `&ldquo;`, are supported alongside Greek letters, mathematical
-operators and relations, and arrows. Named references are decoded only when
-the trailing semicolon is present and the name's case exactly matches a defined
-reference. Unknown or differently cased named references are preserved.
+operators and relations, and arrows. Named references normally require a
+trailing semicolon and an exact case match; the legacy text references listed
+above may omit their semicolon at an unambiguous boundary. Unknown, ambiguous,
+or differently cased named references are preserved.
 
 ## Safety boundaries
 

@@ -35,6 +35,10 @@ const ENTITIES = new Map([
   ['lArr', '⇐'], ['uArr', '⇑'], ['rArr', '⇒'], ['dArr', '⇓'], ['hArr', '⇔']
 ]);
 
+// HTML permits a small historical subset of named references without a
+// semicolon. Keep this explicit so modern names do not become ambiguous.
+const LEGACY_SEMICOLONLESS_ENTITIES = new Set(['amp', 'lt', 'gt', 'quot', 'nbsp', 'copy', 'reg']);
+
 const NUMERIC_REFERENCE_REPLACEMENTS = new Map([
   [0x80, 0x20ac], [0x82, 0x201a], [0x83, 0x0192], [0x84, 0x201e], [0x85, 0x2026],
   [0x86, 0x2020], [0x87, 0x2021], [0x88, 0x02c6], [0x89, 0x2030], [0x8a, 0x0160],
@@ -52,8 +56,9 @@ function decodeNumericReference(entity) {
 }
 
 export function decodeEntities(value) {
-  return value.replace(/&(#(?:[xX][0-9a-fA-F]+|[0-9]+));?|&([A-Za-z][A-Za-z0-9]+);/g, (match, numeric, named) => {
+  return value.replace(/&(#(?:[xX][0-9a-fA-F]+|[0-9]+));?|&([A-Za-z][A-Za-z0-9]+);|&([A-Za-z]+)(?![A-Za-z0-9])/g, (match, numeric, named, legacy) => {
     if (numeric) return decodeNumericReference(numeric);
+    if (legacy) return LEGACY_SEMICOLONLESS_ENTITIES.has(legacy) ? ENTITIES.get(legacy) : match;
     return ENTITIES.get(named) ?? match;
   });
 }
