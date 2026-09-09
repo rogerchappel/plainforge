@@ -1,0 +1,5 @@
+{
+  "title": "Legacy semicolonless entities",
+  "tags": ["entities", "compatibility"],
+  "notes": "Covers legacy named references and adjacent-alphanumeric ambiguity."
+}
