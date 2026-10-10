@@ -9,6 +9,11 @@ test('decodeEntities handles named and numeric entities', () => {
   assert.equal(decodeEntities('Tom &amp; Jerry &#169; &#x1F680;'), 'Tom & Jerry © 🚀');
 });
 
+test('decodeEntities decodes the named NotEqualTilde reference', () => {
+  assert.equal(decodeEntities('&NotEqualTilde;'), '≂̸');
+  assert.equal(decodeEntities('&NotEqualTilde; &madeup;'), '≂̸ &madeup;');
+});
+
 test('decodeEntities handles semicolonless legacy named references in text', () => {
   const cases = [
     ['Fish &amp chips', 'Fish & chips'],
