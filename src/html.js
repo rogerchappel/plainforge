@@ -32,7 +32,8 @@ const ENTITIES = new Map([
   ['ne', '≠'], ['equiv', '≡'], ['sub', '⊂'], ['sup', '⊃'], ['nsub', '⊄'], ['sube', '⊆'], ['supe', '⊇'], ['oplus', '⊕'],
   ['otimes', '⊗'], ['perp', '⊥'], ['sdot', '⋅'],
   ['larr', '←'], ['uarr', '↑'], ['rarr', '→'], ['darr', '↓'], ['harr', '↔'], ['crarr', '↵'],
-  ['lArr', '⇐'], ['uArr', '⇑'], ['rArr', '⇒'], ['dArr', '⇓'], ['hArr', '⇔']
+  ['lArr', '⇐'], ['uArr', '⇑'], ['rArr', '⇒'], ['dArr', '⇓'], ['hArr', '⇔'],
+  ['NotEqualTilde', '≂̸']
 ]);
 
 // HTML permits a small historical subset of named references without a
