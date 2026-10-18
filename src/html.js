@@ -84,8 +84,8 @@ export function convertHtmlToText(html, options = {}) {
   });
   const text = decodeEntities(
     withLinks
-      .replace(HIDDEN_BLOCKS, ' ')
       .replace(/<!--[\s\S]*?(?:-->|$)/g, ' ')
+      .replace(HIDDEN_BLOCKS, ' ')
       .replace(BLOCK_TAGS, '\n')
       .replace(HTML_TAG, ' ')
   );
