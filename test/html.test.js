@@ -125,6 +125,12 @@ test('convertHtmlToText excludes closed hidden blocks without disturbing visible
   }
 });
 
+test('convertHtmlToText ignores markup-like hidden tags inside comments', () => {
+  assert.equal(convertHtmlToText('before <!-- <script>comment text</script> --> after').text, 'before after');
+  assert.equal(convertHtmlToText('before <!-- <script>comment text --> after').text, 'before after');
+  assert.equal(convertHtmlToText('before <script>hidden</script> after').text, 'before after');
+});
+
 test('convertHtmlToText excludes unclosed hidden blocks through the end of truncated input', () => {
   for (const tag of ['script', 'style', 'noscript', 'svg', 'template', 'head']) {
     const result = convertHtmlToText(`<p>Visible</p><${tag} data-test="hidden">secret`);
